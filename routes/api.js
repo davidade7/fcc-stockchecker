@@ -1,5 +1,17 @@
 'use strict';
 
+require('dotenv').config()
+const mongoose = require('mongoose')
+
+// Connection to mongoose
+mongoose.connect(process.env['MONGO_URI'])
+  .then(() => console.log("Connected to DB"))
+  .catch(console.error);;
+
+// Schema for the stocks
+const Stock = require('../models/stockSchema')
+
+
 module.exports = function (app) {
 
 const stockAPIUrl = 'https://stock-price-checker-proxy.freecodecamp.rocks/v1/stock/[symbol]/quote'
