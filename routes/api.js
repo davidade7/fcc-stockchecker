@@ -125,7 +125,7 @@ module.exports = function (app) {
   app.route('/api/stock-prices')
     .get(async (req, res) => {
       // retrieve stock and like from query
-      let stock = req.query.stock.toUpperCase()
+      let stock = req.query.stock
       let like = req.query.like
       // retrieve ip
       let ip = req.ip;
@@ -134,11 +134,11 @@ module.exports = function (app) {
       
       // Check if stock is an array or a string
       if (typeof(stock) === 'string') {
-        let response = await getStock(stock, like, ip)
+        let response = await getStock(stock.toUpperCase(), like, ip)
         result = response
       } else if (typeof(stock) === 'object') {
         for (let i=0; i<stock.length; i++) {
-          let response = await getStock(stock[i])
+          let response = await getStock(stock[i].toUpperCase(), like, ip)
           result.push(response)
         }
 
