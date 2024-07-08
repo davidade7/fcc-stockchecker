@@ -11,8 +11,6 @@ mongoose.connect(process.env['MONGO_URI'])
 // Schema for the stocks
 const Stock = require('../models/stockSchema')
 
-
-
 // Find Stock in the database with or without ip
 const findStock = async (stock, ip) => {
   // Initialize query
@@ -33,6 +31,7 @@ const addStock = async (stock) => {
   let result = await Stock.create({ stock_symbol: stock })
   return result
 }
+
 // Add Stock with IP to the database
 const addStockWithIP = async (stock, ip) => {
   let result = await Stock.create({ stock_symbol: stock})
@@ -67,33 +66,31 @@ const getStock = async (stock, like, ip) => {
       price: data.latestPrice,
     }
   }
-  // console.log("data >>", data)
-
 
   // Check if the stock_symbol is saved in the database
   let isStockInDB = await findStock(stock, false)
   // If the stock is not in the database
   if (!isStockInDB) {
-    console.log("Stock not in DB, adding it...")
+    // console.log("Stock not in DB, adding it...")
     // If the like is false, the create the stock without ip
     if (like === "false") {
-      console.log("...without like")
+      // console.log("...without like")
       await addStock(stock)
     } 
     // If the like is true, create the stock with ip
     else {
-      console.log("...with like")
+      // console.log("...with like")
       await addStockWithIP(stock, ip)
     }
   } 
   // The stock_symbol is already in the database
   else {
-    console.log("Stock is in DB")
+    // console.log("Stock is in DB")
     // If stock symbol is liked, check if the ip is in the database
     if (like === "true") {
       let checkIPInDB = await findStock(stock, ip)
       if (!checkIPInDB) {
-        console.log("IP is not in DB, adding it...")
+        // console.log("IP is not in DB, adding it...")
         await addIP(stock, ip)
       }
     }
@@ -111,14 +108,11 @@ const getStock = async (stock, like, ip) => {
     let countLikes = stockSearch['ip_adresses'].length
     result['likes'] = countLikes
   }
-  
-
-  console.log("result >>", result)
+  // console.log("result >>", result)
 
   // Return the result
   return result
 }
-
 
 module.exports = function (app) {
 
@@ -155,7 +149,7 @@ module.exports = function (app) {
         delete result[1]['likes'] 
 
       } else {
-        console.log("not a string or an array")
+        // console.log("not a string or an array")
         return
       }
 
@@ -163,5 +157,4 @@ module.exports = function (app) {
         stockData: result
       })      
     });
-    
 };
