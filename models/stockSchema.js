@@ -7,6 +7,6 @@ const stockSchema = new mongoose.Schema({
 })
 
 // Models
-const Stock = mongoose.model('Issue', stockSchema);
+const Stock = mongoose.model('Stock', stockSchema);
 
 module.exports = Stock;
