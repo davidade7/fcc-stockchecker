@@ -125,7 +125,7 @@ module.exports = function (app) {
   app.route('/api/stock-prices')
     .get(async (req, res) => {
       // retrieve stock and like from query
-      let stock = req.query.stock
+      let stock = req.query.stock.toUpperCase()
       let like = req.query.like
       // retrieve ip
       let ip = req.ip;
